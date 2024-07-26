@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>rgb new format</title>
+</head>
+<body>
+    <input value="50" placeholder="delay in ms" id="delay1" type="range" onchange="change()" ondrag="change()" max="10000" min="10" style="width: 10000;">
+    <input value="50" placeholder="delay in ms" id="delay2" type="number" onchange="change2()" ondrag="change2()" max="10000" min="10" style="width: 10000;">
+    <p id="offset_for_animation">offset w milisekundach : 50</p>
+    <a href="https://scratch.mit.edu/projects/1050033518/" target="_blank">Kreator światełek</a>
+    <a href=""></a>
+    <p>używaj</p>
+     <a herf="https://github.com/adafruit/Adafruit_NeoPixel/" target="_blank">adafruit neopixel</a>
+      <a herf="https://cdn-shop.adafruit.com/datasheets/WS2812.pdf/" target="_blank">WS2812</a>
+       <a herf="https://botland.com.pl/lancuchy-i-matryce-led/6255-listwa-led-rgb-ws2812-5050-x-8-diod-53mm-5903351249157.html/" target="_blank">(Botland)</a></p>
+    <br>
+    <textarea id="in" style="height: 174px; width: 653px;" placeholder="in">
+
+    </textarea>
+    <br>
+    <textarea id="out" style="height: 174px; width: 653px;" placeholder="out">
+
+    </textarea>
+    <hr>
+    <button id="go" onclick="go()" style="width: 1500px; height: 100px; font-size: xx-large;">go</button>
+    <input id="1" hidden> 
+</body>
+
+
+<script>
+    let input = document.getElementById("in");
+    let output = document.getElementById("out");
+    let delay1 = document.getElementById("delay1");
+    let delay2 = document.getElementById("delay2");
+    let hidden1 = document.getElementById("1");
+    let delay = 50;
+    input.value = ""
+    output.value = ""
+    change2()
+    function change(){
+        delay2.value = delay1.value
+        document.getElementById("offset_for_animation").innerText = "offset w milisekundach : "+delay1.value
+    }
+    function change2(){
+        delay1.value = delay2.value
+        document.getElementById("offset_for_animation").innerText = "offset w milisekundach : "+delay2.value
+    }
+    function go(){
+        console.log("go runned")
+        let lines = input.value.split(";");
+        let count = lines.length;
+        console.log("lines are : "+lines+" lenght of them is : "+count)
+        let final = ""
+        for(let i = 0; i < count; i++){
+            console.log("first for in the iterator is : "+i)
+            hidden1.value = lines
+            let lines_sections = hidden1.value.split(" ");
+            let lines_sections_length = lines_sections.length
+            console.log(lines_sections_length)
+            console.log(lines_sections[2])
+            let output_for_line_RGB = ""
+            let line_output = ""
+
+            if(lines_sections_length == 8){
+                for(let j = 0; j < 8; j++){
+                    console.log("2 pętla iterator : "+j)
+                    switch(j){
+                        case(0):line_output = "linijka.setPixelColor(7, linijka.Color("+lines_sections[j]+"));\n"; break;
+                        case(1):line_output = "linijka.setPixelColor(6, linijka.Color("+lines_sections[j]+"));\n"; break;
+                        case(2):line_output = "linijka.setPixelColor(5, linijka.Color("+lines_sections[j]+"));\n"; break;
+                        case(3):line_output = "linijka.setPixelColor(4, linijka.Color("+lines_sections[j]+"));\n"; break;
+                        case(4):line_output = "linijka.setPixelColor(3, linijka.Color("+lines_sections[j]+"));\n"; break;
+                        case(5):line_output = "linijka.setPixelColor(2, linijka.Color("+lines_sections[j]+"));\n"; break;
+                        case(6):line_output = "linijka.setPixelColor(1, linijka.Color("+lines_sections[j]+"));\n"; break;
+                        case(7):line_output = "linijka.setPixelColor(0, linijka.Color("+lines_sections[j]+"));\nlinijka.show();\ndelay("+delay.value+");\n"; break;
+                    }
+                    console.log(line_output)
+                    final = final+line_output
+                }
+                if(i == count-1){
+                    output.value = final
+                }
+            }else{
+                alert("nie odpowiednia ilość na rząd (odpowiednia ilość to 8)");
+                break;
+            }
+        }
+        
+    }
+
+</script>
+
+
+</html>
